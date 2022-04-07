@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %} Result {% endblock %}
+{% block page_content %}
+  <h1> Setting </h1>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        {% for k in cfg.keys() %}
+          <td> {{ k }}</td>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        {% for k in cfg.keys() %}
+          <td>{{ "{}".format(cfg[k]) }}</td>
+        {% endfor %}
+      </tr>
+    </tbody>
+  </table>
+
+  <h1> Result </h1>
+  <img src={{url_for('static', filename=expid+"/accuracy.png")}} alt="image" width="40%" height="auto"/>
+  <img src={{url_for('static', filename=expid+"/loss.png")}} alt="image" width="40%" height="auto"/>
+
+{% endblock %}

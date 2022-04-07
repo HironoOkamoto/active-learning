@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %} Index {% endblock %}
+{% block page_content %}
+  {% if cfgs|length %}
+    <table class="table table-hover">
+      <thead>
+	<tr>
+        {% for k in cfgs[0].keys() %}
+          <td> {{ k }}</td>
+        {% endfor %}
+	</tr>
+      </thead>
+      <tbody>
+	{% for cfg in cfgs %}
+	  <tr>
+            {% for k in cfg.keys() %}
+	      {% if k == "expid" %}
+		<td><a href="{{ url_for("result", expid=cfg[k]) }}"> {{ cfg[k] }}</a></td>
+	      {% else %}
+		<td>{{ "{}".format(cfg[k]) }}</td>
+	      {% endif %}
+            {% endfor %}
+	  </tr>
+	{% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+
+{% endblock %}
