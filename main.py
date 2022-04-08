@@ -56,9 +56,6 @@ class Exp(BaseExp):
         model = model.to(device)
 
         optimizer = torch.optim.Adam(model.parameters(), lr=self.lr)
-        scheduler = lr_scheduler.MultiStepLR(optimizer,
-                                             milestones=[int(0.8 * self.epochs)],
-                                             gamma=0.1)
         criterion = nn.CrossEntropyLoss()
 
         start_time = time.time()
@@ -108,7 +105,6 @@ class Exp(BaseExp):
                 self.best_acc = self.log_dict[phase][epoch, 1]
                 torch.save(model.state_dict(), f'{self.exp_path}/model.pth')
             self.save_logs(epoch)
-            scheduler.step()
 
         time_elapsed = time.time() - start_time
         print(f'Training complete in {time_elapsed//60:.0f}m {time_elapsed%60:.0f}s')
@@ -147,7 +143,7 @@ if __name__ == '__main__':
     parser.add_argument('--seed', type=int, default=0)
     parser.add_argument('--data_path', type=str, default='data')
     parser.add_argument('--static_path', type=str, default='static')
-    parser.add_argument('--epochs', '-e', type=int, default=6)
+    parser.add_argument('--epochs', '-e', type=int, default=20)
     parser.add_argument('--batch_size', '-bs', type=int, default=8)
     parser.add_argument('--model', '-m', type=str, default='efficientnet_b0')
     parser.add_argument('--lr', type=float, default=1e-3)
