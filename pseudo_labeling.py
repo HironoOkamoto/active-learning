@@ -76,13 +76,11 @@ class Exp(BaseExp):
                 subset = Subset(train_dataset, init_indices)
                 rest_subset = Subset(train_dataset, rest_indices)
             else:
+                targets = np.array(train_dataset.targets)
+                targets[rest_indices] = pseudo_labels
+                train_dataset.targets = targets
                 init_indices = np.append(init_indices, new_indices)
                 rest_indices = np.delete(rest_indices, argsort[:N])
-                targets = train_dataset.targets
-                rest_targets = targets[N:]
-                rest_targets[N*j:N*(j+1)] = pseudo_labels
-                targets[N:] = rest_targets
-                train_dataset.targets = targets
                 subset = Subset(train_dataset, init_indices)
                 rest_subset = Subset(train_dataset, rest_indices)
 
@@ -147,7 +145,7 @@ class Exp(BaseExp):
                     pseudo_labels = np.array(pseudo_labels)
                     argsort = conf.argsort()[::-1]
                     new_indices = rest_indices[argsort][:N]
-                    pseudo_labels = pseudo_labels[argsort][:N]
+
 
                 ############## test #################
                 phase = "test"
